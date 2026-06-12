@@ -381,12 +381,12 @@ window.openDetailsModal = function(id, area) {
             
             <div class="detail-section">
                 <h4>Scoring Breakdown</h4>
-                <div class="detail-item"><strong>Rating Score:</strong> <span>${restaurant.score_rating} / 20</span></div>
+                <div class="detail-item"><strong>Rating Score:</strong> <span>${restaurant.score_rating} / 25</span></div>
                 <div class="detail-item"><strong>Group Score:</strong> <span>${restaurant.score_group} / 20</span></div>
                 <div class="detail-item"><strong>Price Score:</strong> <span>${restaurant.score_price} / 15</span></div>
                 <div class="detail-item"><strong>Travel Score:</strong> <span>${restaurant.score_travel} / 15</span></div>
                 <div class="detail-item"><strong>Data Score:</strong> <span>${restaurant.score_data} / 15</span></div>
-                <div class="detail-item"><strong>Unique Score:</strong> <span>${restaurant.score_unique} / 15</span></div>
+                <div class="detail-item"><strong>Unique Score:</strong> <span>${restaurant.score_unique} / 10</span></div>
                 <div class="detail-item" style="margin-top: 1rem; border-top: 1px dashed var(--glass-border); padding-top: 1rem;">
                     <strong><i class="fa-solid fa-trophy"></i> TOTAL SCORE:</strong> <span style="color:var(--accent-color); font-weight:bold; font-size:1.1rem;">${restaurant.total_score} / 100</span>
                 </div>
