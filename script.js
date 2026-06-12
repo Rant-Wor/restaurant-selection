@@ -346,7 +346,13 @@ window.openMapModal = function(title, mapUrl) {
     if (!mapUrl || mapUrl === 'null' || mapUrl === '') {
         document.getElementById('modal-iframe-container').innerHTML = `<p style="text-align:center; padding: 2rem;">Map embed URL not available.</p>`;
     } else {
-        document.getElementById('modal-iframe-container').innerHTML = `<iframe src="${mapUrl}" allowfullscreen="" loading="lazy"></iframe>`;
+        // Rewrite to the most robust free embed format
+        let finalUrl = mapUrl;
+        const match = mapUrl.match(/q=([\d.-]+),([\d.-]+)/);
+        if (match) {
+            finalUrl = `https://maps.google.com/maps?q=${match[1]},${match[2]}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+        }
+        document.getElementById('modal-iframe-container').innerHTML = `<iframe src="${finalUrl}" allowfullscreen="" loading="lazy"></iframe>`;
     }
     
     document.getElementById('map-modal').classList.add('show');
