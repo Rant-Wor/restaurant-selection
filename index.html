@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Recommendation Workflow</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- PapaParse for CSV fetching -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body class="theme-thonglo" id="app-body">
+    <!-- Overlay for theme transitions -->
+    <div class="theme-overlay" id="theme-overlay"></div>
+
+    <div class="container">
+        <!-- 1. Header Section -->
+        <header class="section-header glass-panel">
+            <div class="header-content">
+                <div class="header-titles">
+                    <h1>Restaurant Selection</h1>
+                    <p class="subtitle">Curated dining experiences for your team</p>
+                </div>
+                <div class="header-meta">
+                    <div class="meta-item">
+                        <i class="fa-solid fa-user"></i>
+                        <span><strong>Examinee:</strong> INT : Mark</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fa-solid fa-calendar-day"></i>
+                        <span><strong>Date:</strong> <span id="current-date"></span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="area-selector">
+                <label for="area-select">Select Area:</label>
+                <div class="select-wrapper">
+                    <select id="area-select">
+                        <option value="Siam" selected>Siam (สยาม)</option>
+                        <option value="Ari">Ari (อารีย์)</option>
+                        <option value="Thong Lo">Thong Lo (ทองหล่อ)</option>
+                        <option value="Asok">Asok (อโศก)</option>
+                        <option value="Phrom Phong">Phrom Phong (พร้อมพงษ์)</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Context Sections (Added back) -->
+        <section class="section objective fade-in">
+            <h2><i class="fa-solid fa-bullseye"></i> Objective (เป้าหมาย)</h2>
+            <p><strong>เป้าหมายของ Workflow:</strong> ค้นหา วิเคราะห์ ให้คะแนน และแนะนำร้านอาหารที่เหมาะสำหรับทีม 8–12 คน ในพื้นที่ที่กำหนด (สยาม, อารีย์, ทองหล่อ, อโศก, พร้อมพงษ์) โดยอิงจากข้อมูลจริงที่ตรวจสอบได้ เพื่อใช้เป็นตัวเลือกสำหรับมื้อเย็นหลังเลิกงาน</p>
+        </section>
+
+        <section class="section workflow fade-in">
+            <h2><i class="fa-solid fa-diagram-project"></i> Workflow Overview (ภาพรวมขั้นตอน)</h2>
+            <div class="workflow-diagram">
+                <div class="step">
+                    <div class="step-icon"><i class="fa-solid fa-spider"></i></div>
+                    <div class="step-content">
+                        <h4>1. Data Collection (Scraping)</h4>
+                        <p>ดึงข้อมูลร้านอาหารดิบผ่าน <strong>Apify (Google Maps Scraper)</strong></p>
+                    </div>
+                </div>
+                <div class="step-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="step">
+                    <div class="step-icon"><i class="fa-solid fa-robot"></i></div>
+                    <div class="step-content">
+                        <h4>2. AI Analysis & Scoring</h4>
+                        <p>ใช้ <strong>OpenAI GPT 5-mini</strong> ในการประเมินและให้คะแนนตามเกณฑ์ 100 คะแนน</p>
+                    </div>
+                </div>
+                <div class="step-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="step">
+                    <div class="step-icon"><i class="fa-solid fa-gears"></i></div>
+                    <div class="step-content">
+                        <h4>3. Automation Workflow</h4>
+                        <p>เชื่อมต่อข้อมูลทั้งหมดและจัดการคิวด้วย <strong>n8n</strong> ส่งข้อมูลไปยัง Google Sheets</p>
+                    </div>
+                </div>
+                <div class="step-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="step">
+                    <div class="step-icon"><i class="fa-solid fa-desktop"></i></div>
+                    <div class="step-content">
+                        <h4>4. Output (HTML Report)</h4>
+                        <p>นำเสนอข้อมูลในรูปแบบ <strong>HTML Dashboard</strong> สไตล์ Minimal Luxury ที่สามารถโต้ตอบได้</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section tools fade-in">
+            <h2><i class="fa-solid fa-toolbox"></i> Tools Used (เครื่องมือที่ใช้)</h2>
+            <div class="tools-grid">
+                <div class="tool-card"><i class="fa-solid fa-spider"></i> <span>Apify</span></div>
+                <div class="tool-card"><i class="fa-solid fa-robot"></i> <span>OpenAI GPT 5-mini</span></div>
+                <div class="tool-card"><i class="fa-solid fa-gears"></i> <span>n8n (Automation)</span></div>
+                <div class="tool-card"><i class="fa-solid fa-file-excel"></i> <span>Google Sheets</span></div>
+                <div class="tool-card"><i class="fa-brands fa-html5"></i> <span>HTML/CSS/JS</span></div>
+            </div>
+        </section>
+
+        <section class="section data-sources fade-in">
+            <h2><i class="fa-solid fa-database"></i> Data Sources (แหล่งข้อมูล)</h2>
+            <div class="table-container glass-card">
+                <table class="data-table">
+                    <thead><tr><th>แหล่งข้อมูล</th><th>URL</th><th>หมายเหตุ</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>Google Maps (via Apify)</td>
+                            <td><a href="https://apify.com/compass/google-maps-reviews-scraper" target="_blank">Apify Google Maps</a></td>
+                            <td>แหล่งข้อมูลรีวิว, เรตติ้ง และเวลาทำการ</td>
+                        </tr>
+                        <tr>
+                            <td>Google Sheets (Database)</td>
+                            <td><a href="#" target="_blank">Published CSV</a></td>
+                            <td>ฐานข้อมูลที่ผ่านการประมวลผลแล้ว</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section criteria fade-in">
+            <h2><i class="fa-solid fa-list-check"></i> Scoring Criteria (เกณฑ์การให้คะแนน)</h2>
+            <div class="table-container glass-card">
+                <table class="data-table">
+                    <thead><tr><th>หมวดหมู่</th><th>คะแนนเต็ม</th><th>เกณฑ์การพิจารณา</th></tr></thead>
+                    <tbody>
+                        <tr><td>Rating</td><td class="score-weight">20</td><td>คะแนนเฉลี่ยบน Google Maps และจำนวนรีวิว (ความน่าเชื่อถือ)</td></tr>
+                        <tr><td>Group</td><td class="score-weight">20</td><td>พื้นที่กว้างขวาง เหมาะกับการคุยงาน/สังสรรค์ (8-12 คน)</td></tr>
+                        <tr><td>Price</td><td class="score-weight">15</td><td>ความคุ้มค่า (VFM) ไม่เกิน 1,500 บาท/คน</td></tr>
+                        <tr><td>Travel</td><td class="score-weight">15</td><td>ใกล้ BTS/MRT หรือมีที่จอดรถเพียงพอ</td></tr>
+                        <tr><td>Data</td><td class="score-weight">15</td><td>ความสมบูรณ์ของข้อมูล (เวลาเปิดปิด, เบอร์โทร)</td></tr>
+                        <tr><td>Unique</td><td class="score-weight">15</td><td>จุดเด่นเฉพาะตัว (บรรยากาศ, รสชาติ, โปรโมชัน)</td></tr>
+                        <tr style="background: rgba(212, 175, 55, 0.1); font-weight: bold;"><td>รวมทั้งหมด</td><td class="score-weight">100</td><td>คัดเลือกเฉพาะร้านที่มีคะแนนรวมสูงสุด</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div id="loading-indicator" class="loading-state">
+            <div class="spinner"></div>
+            <p>Fetching data from Google Sheets...</p>
+        </div>
+
+        <div id="data-content" style="display: none;">
+            <!-- 2. Top 3 Recommendation -->
+            <section class="section top3 fade-in">
+                <h2><i class="fa-solid fa-trophy"></i> Top Recommendations</h2>
+                <p class="section-desc">ร้านอาหารที่ได้รับการแนะนำในย่าน <span class="current-area-text">ทองหล่อ</span> ตามหมวดหมู่</p>
+                
+                <div class="filter-buttons">
+                    <button class="btn-filter active" data-filter="top">Top Recommendation</button>
+                    <button class="btn-filter" data-filter="budget">Save budget</button>
+                    <button class="btn-filter" data-filter="fastfood">Fast food</button>
+                    <button class="btn-filter" data-filter="meeting">Meeting</button>
+                </div>
+
+                <div class="cards-container" id="top3-container">
+                    <!-- Cards will be injected via JS -->
+                </div>
+            </section>
+
+            <!-- 3. Restaurant Comparison (Moved below Top 3) -->
+            <section class="section comparison fade-in">
+                <h2><i class="fa-solid fa-scale-balanced"></i> Restaurant Comparison</h2>
+                <p class="section-desc">การเปรียบเทียบจุดเด่นและข้อควรระวัง (Trade-offs) สำหรับ 3 ร้านแนะนำด้านบน</p>
+                <div class="comparison-grid" id="comparison-container">
+                    <!-- Comparison boxes will be injected via JS -->
+                </div>
+            </section>
+
+            <!-- 4. All Restaurants (Formerly Top 10) -->
+            <section class="section all-restaurants fade-in">
+                <h2><i class="fa-solid fa-list"></i> All Restaurants</h2>
+                <div class="table-container glass-card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Restaurant Name</th>
+                                <th>Type & Price</th>
+                                <th>Hours</th>
+                                <th>Rating</th>
+                                <th>Total Score</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-restaurants-body">
+                            <!-- Rows will be injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        
+        <footer class="footer">
+            <p>Created by Ranthananun Worawaran | Automated AI Workflow Demonstration</p>
+        </footer>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="details-modal" class="modal">
+        <div class="modal-content glass-panel" style="max-width: 900px;">
+            <span class="close-btn" onclick="closeDetailsModal()">&times;</span>
+            <h3 id="details-title" style="margin-bottom: 1rem; color: var(--accent-color);">Restaurant Details</h3>
+            <div id="details-body">
+                <!-- Details will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Modal -->
+    <div id="map-modal" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" onclick="closeMapModal()">&times;</span>
+            <h3 id="modal-title">Location Map</h3>
+            <div class="iframe-container" id="modal-iframe-container">
+                <!-- iframe will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
