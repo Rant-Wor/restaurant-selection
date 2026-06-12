@@ -13,6 +13,14 @@ let cachedData = {};
 let currentFilter = 'top';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Set current date if element exists
+    const dateElement = document.getElementById('current-date');
+    if (dateElement) {
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        let d = new Date();
+        d.setDate(d.getDate() - 1);
+        dateElement.textContent = d.toLocaleDateString('th-TH', dateOptions);
+    }
     // Initialize Area Selector
     const areaSelect = document.getElementById('area-select');
     areaSelect.addEventListener('change', handleAreaChange);
